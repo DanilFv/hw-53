@@ -1,15 +1,34 @@
+import {type FormEvent, useState} from "react";
 import Field from "../Field/Field.tsx";
 import Button from "../Button/Button.tsx";
+import * as React from "react";
 
-const AddTaskForm = () => {
+interface Props {
+    clickOnFormSubmit: (taskName: string) => void;
+}
+
+
+const AddTaskForm: React.FC<Props> = ({clickOnFormSubmit}) => {
+    const [taskName, setTaskName] = useState<string>('');
+
+
+    const formSubmit = (event: FormEvent) => {
+        event.preventDefault();
+        clickOnFormSubmit(taskName);
+        setTaskName('')
+    }
+
+
     return (
-        <form>
+        <form onSubmit={formSubmit}>
               <div className="input-section">
                     <Field
+                        value={taskName}
                         type='text'
                         className='add-task-input'
                         label='Add new task'
                         id='title'
+                        onInputChange={(event) => setTaskName(event.target.value)}
                     />
 
                     <Button
